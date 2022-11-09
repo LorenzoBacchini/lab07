@@ -1,13 +1,12 @@
 package it.unibo.mvc;
 
 import java.lang.reflect.Constructor;
+import java.util.List;
 
 import it.unibo.mvc.api.DrawNumberController;
 import it.unibo.mvc.api.DrawNumberView;
 import it.unibo.mvc.controller.DrawNumberControllerImpl;
 import it.unibo.mvc.model.DrawNumberImpl;
-import it.unibo.mvc.view.DrawNumberSwingView;
-import it.unibo.mvc.view.DrawNumberViewImpl;
 
 /**
  * Application entry-point.
@@ -31,19 +30,17 @@ public final class LaunchApp {
         
         final var model = new DrawNumberImpl();
         final DrawNumberController app = new DrawNumberControllerImpl(model);
-        /*app.addView(new DrawNumberViewImpl());
-        app.addView(new DrawNumberSwingView());
-        */
-        final Class<?> view1 = Class.forName("it.unibo.mvc.view.DrawNumberSwingView");
-        final Class<?> view2 = Class.forName("it.unibo.mvc.view.DrawNumberViewImpl");
-        final Constructor<?> c1 = view1.getConstructor();
-        final Constructor<?> c2 = view2.getConstructor();
-        final Object v1 = c1.newInstance();
-        final Object v2 = c2.newInstance();
-        for(int i = 0; i < 3; i++){
-            app.addView((DrawNumberView)c1.newInstance());
-            app.addView((DrawNumberView)c2.newInstance());
+        for ( String type : List.of("ViewImpl", "SwingView")) {
+            final Class<?> view = Class.forName("it.unibo.mvc.view.DrawNumber" + type);
+            final Constructor<?> cns = view.getConstructor();
+            for(int i = 0; i < 3; i++){
+                final Object viewObj = cns.newInstance();
+                try{
+                    app.addView((DrawNumberView)viewObj);
+                }catch(IllegalStateException e){
+                    System.out.println("Impossible to cast viewObj to DrawNumberView" + e);
+                }
+            }
         }
-
     }
 }
