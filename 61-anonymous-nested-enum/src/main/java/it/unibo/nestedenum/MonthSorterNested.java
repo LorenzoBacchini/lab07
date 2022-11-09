@@ -9,9 +9,6 @@ import java.util.Objects;
  */
 public final class MonthSorterNested implements MonthSorter {
 
-    private static final Comparator<String> BY_DATE = new SortByDate();
-    private static final Comparator<String> BY_ORDER = new SortByMonthOrder();
-
     enum Month{
         JANUARY(31),
         FEBRUARY(28),
@@ -57,12 +54,12 @@ public final class MonthSorterNested implements MonthSorter {
 
     @Override
     public Comparator<String> sortByDays() {
-        return BY_DATE;
+        return new SortByDate();
     }
 
     @Override
     public Comparator<String> sortByOrder() {
-        return BY_ORDER;
+        return new SortByMonthOrder();
     }
 
     private static class SortByMonthOrder implements Comparator<String>{
