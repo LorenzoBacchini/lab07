@@ -3,10 +3,8 @@ package it.unibo.mvc;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -41,8 +39,8 @@ public class MiniGUI {
         canvas.add(canvas1, BorderLayout.CENTER);
         canvas1.add(write);
 
-        final JTextField text = new JTextField("Result");
-        canvas.add(text, BorderLayout.NORTH);
+        final JTextField result = new JTextField("Result");
+        canvas.add(result, BorderLayout.NORTH);
 
 
         frame.setContentPane(canvas);
@@ -53,8 +51,10 @@ public class MiniGUI {
         write.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                System.out.println(randomGenerator.nextInt());
-            }
+                int r = randomGenerator.nextInt();
+                System.out.println(r);
+                result.setText("Result: " + r);
+            }  
         });
     }
 
